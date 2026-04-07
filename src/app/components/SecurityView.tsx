@@ -81,9 +81,9 @@ export function SecurityView() {
   return (
     <div className="flex flex-col h-full min-h-0 bg-slate-50 dark:bg-[#1A1D24]">
       {/* Header */}
-      <header className="h-16 flex items-center justify-between px-8 bg-white dark:bg-[#1e2128] border-b border-slate-200 dark:border-slate-700/50 shrink-0 transition-colors duration-200">
-        <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Security Center</h1>
-        <div className="flex items-center gap-3">
+      <header className="h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#1e2128] border-b border-slate-200 dark:border-slate-700/50 shrink-0 transition-colors duration-200">
+        <h1 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Security Center</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-3">
           <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-100 dark:bg-emerald-500/15 rounded-full">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">System Secure</span>
@@ -96,14 +96,14 @@ export function SecurityView() {
 
       <div className="flex-1 overflow-y-auto p-8 flex flex-col gap-6">
         {/* KPIs */}
-        <div className="grid grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
           {[
             { label: "CCTV Online",       value: `${liveCams}/${cctvCameras.length}`, icon: Camera,  color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-100 dark:bg-emerald-500/15", sub: "cameras live" },
             { label: "Active Sessions",   value: activeSessions.length,              icon: Monitor, color: "text-cyan-600 dark:text-cyan-400",       bg: "bg-cyan-100 dark:bg-cyan-500/15",       sub: "logged in now" },
             { label: "Failed Logins",     value: failedLogins,                       icon: XCircle, color: "text-rose-600 dark:text-rose-400",       bg: "bg-rose-100 dark:bg-rose-500/15",       sub: "today" },
             { label: "Security Alerts",   value: securityAlerts.length,              icon: Bell,    color: "text-amber-600 dark:text-amber-400",     bg: "bg-amber-100 dark:bg-amber-500/15",     sub: "unresolved" },
           ].map(({ label, value, icon: Icon, color, bg, sub }) => (
-            <div key={label} className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-5 flex items-center gap-4">
+            <div key={label} className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
               <div className={`w-11 h-11 rounded-xl ${bg} flex items-center justify-center shrink-0`}>
                 <Icon size={20} className={color} />
               </div>
@@ -140,9 +140,9 @@ export function SecurityView() {
         </div>
 
         {/* Charts + Sessions Row */}
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* Alert Trend */}
-          <div className="col-span-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
+          <div className="xl:col-span-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
             <h3 className="font-bold text-slate-800 dark:text-slate-100 mb-1">Security Event Timeline — Today</h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Alert frequency by hour</p>
             <ResponsiveContainer width="100%" height={160}>
@@ -197,7 +197,7 @@ export function SecurityView() {
               <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500" /> Maintenance</div>
             </div>
           </div>
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
             {cctvCameras.map(cam => (
               <div key={cam.id}
                 className={`rounded-xl border overflow-hidden ${
@@ -251,21 +251,24 @@ export function SecurityView() {
 
         {/* Access Log Table */}
         <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl overflow-hidden">
-          <div className="p-5 border-b border-slate-100 dark:border-slate-700/50 flex items-center gap-3">
+          <div className="p-5 border-b border-slate-100 dark:border-slate-700/50 flex flex-col gap-3 sm:flex-row sm:items-center">
             <h3 className="font-bold text-slate-800 dark:text-slate-100">Access Logs</h3>
-            <div className="relative ml-auto">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input type="text" placeholder="Search logs..." value={search} onChange={e => setSearch(e.target.value)}
-                className="pl-8 pr-4 py-2 bg-slate-50 dark:bg-[#1A1D24] border border-slate-200 dark:border-slate-600/50 rounded-lg text-sm text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 w-48" />
-            </div>
-            <div className="relative">
-              <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}
-                className="appearance-none pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-[#1A1D24] border border-slate-200 dark:border-slate-600/50 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
-                {["All", "Success", "Failed"].map(o => <option key={o}>{o}</option>)}
-              </select>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:ml-auto w-full sm:w-auto">
+              <div className="relative w-full sm:w-48">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input type="text" placeholder="Search logs..." value={search} onChange={e => setSearch(e.target.value)}
+                  className="w-full pl-8 pr-4 py-2 bg-slate-50 dark:bg-[#1A1D24] border border-slate-200 dark:border-slate-600/50 rounded-lg text-sm text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/20" />
+              </div>
+              <div className="relative w-full sm:w-auto">
+                <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}
+                  className="w-full sm:w-auto appearance-none pl-3 pr-8 py-2 text-sm bg-slate-50 dark:bg-[#1A1D24] border border-slate-200 dark:border-slate-600/50 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
+                  {["All", "Success", "Failed"].map(o => <option key={o}>{o}</option>)}
+                </select>
+              </div>
             </div>
           </div>
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-100 dark:border-slate-700/50 bg-slate-50 dark:bg-[#1A1D24]">
                 {["Log ID", "User", "Role", "Action", "Area", "IP Address", "Time", "Status"].map(h => (
@@ -297,6 +300,7 @@ export function SecurityView() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>

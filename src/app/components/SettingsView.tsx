@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   User, Lock, Bell, Palette, Database, Link, Download,
   Upload, Trash2, Shield, Eye, EyeOff, CheckCircle2,
@@ -23,6 +23,7 @@ function Toggle({ enabled, onChange }: { enabled: boolean; onChange: () => void 
 }
 
 export function SettingsView() {
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [activeTab, setActiveTab] = useState("profile");
   const [showPass, setShowPass] = useState(false);
   const [prefs, setPrefs] = useState({
@@ -38,6 +39,16 @@ export function SettingsView() {
   });
 
   const toggle = (k: keyof typeof prefs) => setPrefs(p => ({ ...p, [k]: !p[k] }));
+
+  const handleSave = () => {
+    const personalInfo = formRef.current ? Object.fromEntries(new FormData(formRef.current).entries()) : {};
+    const updatedData = {
+      personalInfo,
+      notificationPreferences: prefs,
+    };
+    console.log("Saved settings:", updatedData);
+    alert("Settings Saved");
+  };
 
   const integrations = [
     { name: "Stripe Payments",    logo: "💳", desc: "Payment gateway for credit/debit processing", connected: true,  color: "bg-violet-100 dark:bg-violet-500/15" },
@@ -60,16 +71,16 @@ export function SettingsView() {
   return (
     <div className="flex flex-col h-full min-h-0 bg-slate-50 dark:bg-[#1A1D24]">
       {/* Header */}
-      <header className="h-16 flex items-center justify-between px-8 bg-white dark:bg-[#1e2128] border-b border-slate-200 dark:border-slate-700/50 shrink-0 transition-colors duration-200">
-        <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Settings</h1>
-        <button className="flex items-center gap-2 px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-semibold rounded-lg transition-colors">
+      <header className="h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#1e2128] border-b border-slate-200 dark:border-slate-700/50 shrink-0 transition-colors duration-200">
+        <h1 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Settings</h1>
+        <button onClick={handleSave} className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-semibold rounded-lg transition-colors">
           <Save size={14} /> Save Changes
         </button>
       </header>
 
-      <div className="flex flex-1 min-h-0 overflow-hidden">
+      <div className="flex flex-col lg:flex-row flex-1 min-h-0 overflow-hidden">
         {/* Side Tabs */}
-        <div className="w-56 shrink-0 bg-white dark:bg-[#1e2128] border-r border-slate-200 dark:border-slate-700/50 p-4 space-y-1">
+        <div className="w-full lg:w-56 shrink-0 bg-white dark:bg-[#1e2128] border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-700/50 p-4 space-y-1">
           {TABS.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left ${
@@ -84,11 +95,11 @@ export function SettingsView() {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-8">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
 
           {/* ── PROFILE ── */}
           {activeTab === "profile" && (
-            <div className="max-w-2xl space-y-6">
+            <form ref={formRef} className="max-w-2xl space-y-6">
               <div>
                 <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">My Profile</h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage your personal account settings.</p>
@@ -96,11 +107,11 @@ export function SettingsView() {
 
               {/* Avatar */}
               <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
-                <div className="flex items-center gap-6">
+                <div className="flex flex-col md:flex-row items-center gap-6">
                   <div className="w-20 h-20 rounded-full bg-cyan-100 dark:bg-cyan-900/40 flex items-center justify-center text-cyan-600 dark:text-cyan-400 font-bold text-2xl border-2 border-cyan-200 dark:border-cyan-800/50">
                     JS
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <h3 className="font-bold text-slate-800 dark:text-slate-100 text-lg">Jane Smith</h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400">System Administrator</p>
                     <div className="flex items-center gap-2 mt-3">
@@ -118,18 +129,18 @@ export function SettingsView() {
               {/* Personal Info */}
               <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6 space-y-5">
                 <h3 className="font-bold text-slate-800 dark:text-slate-100">Personal Information</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
-                    { label: "First Name",   val: "Jane",             type: "text" },
-                    { label: "Last Name",    val: "Smith",            type: "text" },
-                    { label: "Job Title",    val: "System Administrator", type: "text" },
-                    { label: "Department",   val: "Management",       type: "text" },
-                    { label: "Email",        val: "jane@grandazure.com", type: "email" },
-                    { label: "Phone",        val: "+1 (305) 555-0201", type: "tel" },
+                    { label: "First Name",   name: "firstName",   val: "Jane",             type: "text" },
+                    { label: "Last Name",    name: "lastName",    val: "Smith",            type: "text" },
+                    { label: "Job Title",    name: "jobTitle",    val: "System Administrator", type: "text" },
+                    { label: "Department",   name: "department",  val: "Management",       type: "text" },
+                    { label: "Email",        name: "email",       val: "jane@grandazure.com", type: "email" },
+                    { label: "Phone",        name: "phone",       val: "+1 (305) 555-0201", type: "tel" },
                   ].map(f => (
                     <div key={f.label}>
                       <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">{f.label}</label>
-                      <input type={f.type} defaultValue={f.val}
+                      <input name={f.name} type={f.type} defaultValue={f.val}
                         className="w-full px-3 py-2.5 bg-slate-50 dark:bg-[#1A1D24] border border-slate-200 dark:border-slate-600/50 rounded-lg text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500" />
                     </div>
                   ))}
@@ -153,7 +164,7 @@ export function SettingsView() {
                   </div>
                 ))}
               </div>
-            </div>
+            </form>
           )}
 
           {/* ── SECURITY ── */}
@@ -225,7 +236,7 @@ export function SettingsView() {
 
               <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
                 <h3 className="font-bold text-slate-800 dark:text-slate-100 mb-4">Theme</h3>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {[
                     { name: "Light", preview: "bg-white", border: "border-cyan-500", text: "text-slate-900" },
                     { name: "Dark",  preview: "bg-[#1A1D24]", border: "border-slate-600", text: "text-slate-100" },
@@ -289,12 +300,12 @@ export function SettingsView() {
 
               <div className="grid gap-4">
                 {integrations.map(int => (
-                  <div key={int.name} className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-5 flex items-center gap-4">
+                  <div key={int.name} className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
                     <div className={`w-12 h-12 rounded-xl ${int.color} flex items-center justify-center text-2xl`}>
                       {int.logo}
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                         <p className="font-bold text-slate-800 dark:text-slate-100">{int.name}</p>
                         {int.connected && (
                           <span className="px-1.5 py-0.5 bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 text-xs font-bold rounded-full flex items-center gap-1">
@@ -335,7 +346,7 @@ export function SettingsView() {
                 <div className="w-full h-3 bg-slate-100 dark:bg-slate-700/50 rounded-full overflow-hidden">
                   <div className="h-full bg-cyan-500 rounded-full" style={{ width: "29.6%" }} />
                 </div>
-                <div className="grid grid-cols-3 gap-4 mt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
                   {[
                     { label: "Database",  size: "8.2 GB",  color: "bg-cyan-500" },
                     { label: "Media",     size: "5.1 GB",  color: "bg-violet-500" },

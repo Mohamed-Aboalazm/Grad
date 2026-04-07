@@ -119,27 +119,27 @@ export function AccountingView() {
   return (
     <div className="flex flex-col h-full min-h-0 bg-slate-50 dark:bg-[#1A1D24]">
       {/* ── Header ── */}
-      <header className="h-16 flex items-center justify-between px-8 bg-white dark:bg-[#1e2128] border-b border-slate-200 dark:border-slate-700/50 shrink-0 transition-colors duration-200">
-        <div className="flex items-center gap-3">
-          <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Accounting & Finance</h1>
+      <header className="h-auto sm:h-16 flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 sm:px-6 lg:px-8 py-4 sm:py-0 bg-white dark:bg-[#1e2128] border-b border-slate-200 dark:border-slate-700/50 shrink-0 transition-colors duration-200 gap-3 sm:gap-0">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <h1 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Accounting & Finance</h1>
           <span className="flex items-center gap-1.5 px-2.5 py-1 bg-cyan-50 dark:bg-cyan-500/10 rounded-full text-xs font-semibold text-cyan-600 dark:text-cyan-400">
             <Link2 size={11} /> {ALL_MODULES.length} modules linked
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/40 transition-colors">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
+          <button className="hidden sm:inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/40 transition-colors">
             <Download size={14} /> Export
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-semibold rounded-lg transition-colors">
+          <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white text-xs sm:text-sm font-semibold rounded-lg transition-colors">
             <Receipt size={14} /> New Invoice
           </button>
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-8 flex flex-col gap-6">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 flex flex-col gap-4 sm:gap-6">
 
         {/* ── Module Source Cards (live link indicators) ── */}
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
           {ALL_MODULES.map(mod => {
             const m = MODULE_META[mod];
             const modTxns = allERPTransactions.filter(t => t.sourceModule === mod);
@@ -181,15 +181,15 @@ export function AccountingView() {
         </div>
 
         {/* ── KPI Cards ── */}
-        <div className="grid grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5">
           {[
             { label: "Total Revenue",   value: `$${totalIncome.toLocaleString()}`,    trend: "+14.2%", pos: true,  icon: DollarSign,   color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-100 dark:bg-emerald-500/15", sub: `${allERPTransactions.filter(t=>t.type==="Income").length} income entries` },
             { label: "Total Expenses",  value: `$${totalExpenses.toLocaleString()}`,   trend: "+6.1%",  pos: false, icon: TrendingDown, color: "text-rose-600 dark:text-rose-400",     bg: "bg-rose-100 dark:bg-rose-500/15",     sub: `${allERPTransactions.filter(t=>t.type==="Expense").length} expense entries` },
             { label: "Net Profit",      value: `$${netProfit.toLocaleString()}`,       trend: "+18.4%", pos: true,  icon: TrendingUp,   color: "text-cyan-600 dark:text-cyan-400",     bg: "bg-cyan-100 dark:bg-cyan-500/15",     sub: `${Math.round((netProfit/totalIncome)*100)}% margin` },
             { label: "Pending",         value: `$${pendingAmt.toLocaleString()}`,      trend: `${allERPTransactions.filter(t=>t.status==="Pending").length} txns`, pos: false, icon: CreditCard, color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-100 dark:bg-amber-500/15", sub: "Awaiting settlement" },
           ].map(({ label, value, trend, pos, icon: Icon, color, bg, sub }) => (
-            <div key={label} className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-5 hover:border-cyan-300 dark:hover:border-cyan-700/50 transition-colors">
-              <div className="flex items-start justify-between mb-3">
+            <div key={label} className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-5 hover:border-cyan-300 dark:hover:border-cyan-700/50 transition-colors">
+              <div className="flex items-start justify-between mb-3 gap-3">
                 <div className={`w-10 h-10 rounded-lg ${bg} flex items-center justify-center`}>
                   <Icon size={18} className={color} />
                 </div>
@@ -197,7 +197,7 @@ export function AccountingView() {
                   {pos ? <ArrowUpRight size={13} /> : <ArrowDownRight size={13} />} {trend}
                 </span>
               </div>
-              <p className={`text-2xl font-bold ${color}`}>{value}</p>
+              <p className={`text-2xl sm:text-3xl font-bold ${color}`}>{value}</p>
               <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-1">{label}</p>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{sub}</p>
             </div>
@@ -205,14 +205,14 @@ export function AccountingView() {
         </div>
 
         {/* ── Tabs ── */}
-        <div className="flex items-center gap-1 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-1 w-fit">
+        <div className="flex flex-wrap items-center gap-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-2">
           {([
             { id: "overview",   label: "Overview" },
             { id: "breakdown",  label: "Module Breakdown" },
             { id: "ledger",     label: "Transaction Ledger" },
           ] as const).map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${activeTab === t.id ? "bg-cyan-500 text-white" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"}`}>
+              className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-colors ${activeTab === t.id ? "bg-cyan-500 text-white" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"}`}>
               {t.label}
             </button>
           ))}
@@ -222,19 +222,19 @@ export function AccountingView() {
         {activeTab === "overview" && (
           <>
             {/* Charts row */}
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* P&L 6-month */}
-              <div className="col-span-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
-                <div className="flex items-center justify-between mb-5">
+              <div className="lg:col-span-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5 gap-3">
                   <div>
-                    <h3 className="font-bold text-slate-800 dark:text-slate-100">Revenue vs Expenses (P&L)</h3>
+                    <h3 className="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100">Revenue vs Expenses (P&L)</h3>
                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">6-month trend — all modules combined</p>
                   </div>
-                  <select className="text-sm border border-slate-200 dark:border-slate-600/50 rounded-lg px-2 py-1 bg-slate-50 dark:bg-[#1A1D24] text-slate-600 dark:text-slate-300 focus:outline-none">
+                  <select className="text-xs sm:text-sm border border-slate-200 dark:border-slate-600/50 rounded-lg px-2 py-1 bg-slate-50 dark:bg-[#1A1D24] text-slate-600 dark:text-slate-300 focus:outline-none w-full sm:w-auto">
                     <option>Last 6 Months</option><option>Last Quarter</option><option>YTD</option>
                   </select>
                 </div>
-                <ResponsiveContainer width="100%" height={230}>
+                <ResponsiveContainer width="100%" height={200}>
                   <AreaChart data={revenueExpenseData} margin={{ top: 5, right: 5, left: -10, bottom: 0 }}>
                     <defs>
                       {[
@@ -287,9 +287,9 @@ export function AccountingView() {
             </div>
 
             {/* Cash Flow + Expense Pie */}
-            <div className="grid grid-cols-3 gap-6">
-              <div className="col-span-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
-                <h3 className="font-bold text-slate-800 dark:text-slate-100 mb-1">Weekly Cash Flow — March 2026</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="lg:col-span-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-6">
+                <h3 className="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100 mb-1">Weekly Cash Flow — March 2026</h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Inflow vs outflow — all ERP modules</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart data={cashFlowData} margin={{ top: 5, right: 5, left: -10, bottom: 0 }}>
@@ -298,18 +298,18 @@ export function AccountingView() {
                     <YAxis axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 11 }} tickFormatter={v => `$${v/1000}k`} />
                     <Tooltip contentStyle={{ borderRadius: "8px", border: "1px solid #334155", backgroundColor: "#1e293b", color: "#f8fafc", fontSize: "12px" }} formatter={(v: any) => [`$${v.toLocaleString()}`, ""]} />
                     <Legend iconType="circle" iconSize={8} />
-                    <Bar dataKey="inflow"  name="Inflow"  fill="#10b981" radius={[4, 4, 0, 0]} barSize={28} />
-                    <Bar dataKey="outflow" name="Outflow" fill="#f43f5e" radius={[4, 4, 0, 0]} barSize={28} />
+                    <Bar dataKey="inflow"  name="Inflow"  fill="#10b981" radius={[4, 4, 0, 0]} barSize={24} />
+                    <Bar dataKey="outflow" name="Outflow" fill="#f43f5e" radius={[4, 4, 0, 0]} barSize={24} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
 
-              <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
-                <h3 className="font-bold text-slate-800 dark:text-slate-100 mb-1">Expenses by Module</h3>
+              <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-6">
+                <h3 className="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100 mb-1">Expenses by Module</h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">March 2026</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <PieChart>
-                    <Pie data={expPieData} cx="50%" cy="50%" innerRadius={45} outerRadius={68} paddingAngle={3} dataKey="value">
+                    <Pie data={expPieData} cx="50%" cy="50%" innerRadius={40} outerRadius={60} paddingAngle={3} dataKey="value">
                       {expPieData.map((_, i) => <Cell key={i} fill={PIE_COLORS_EXP[i % PIE_COLORS_EXP.length]} />)}
                     </Pie>
                     <Tooltip contentStyle={{ borderRadius: "8px", border: "1px solid #334155", backgroundColor: "#1e293b", color: "#f8fafc", fontSize: "11px" }} formatter={(v: any) => [`$${v.toLocaleString()}`, ""]} />
@@ -320,7 +320,7 @@ export function AccountingView() {
                     <div key={d.name} className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: PIE_COLORS_EXP[i % PIE_COLORS_EXP.length] }} />
-                        <span className="text-slate-500 dark:text-slate-400">{d.name}</span>
+                        <span className="text-slate-500 dark:text-slate-400 truncate">{d.name}</span>
                       </div>
                       <span className="font-bold text-slate-700 dark:text-slate-300">${d.value.toLocaleString()}</span>
                     </div>
@@ -334,12 +334,14 @@ export function AccountingView() {
         {/* ── BREAKDOWN TAB ── */}
         {activeTab === "breakdown" && (
           <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
               {/* Revenue sources */}
-              <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
-                <div className="flex items-center gap-2 mb-5">
-                  <ArrowUpRight size={16} className="text-emerald-500" />
-                  <h3 className="font-bold text-slate-800 dark:text-slate-100">Revenue Sources</h3>
+              <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-5">
+                  <div className="flex items-center gap-2">
+                    <ArrowUpRight size={16} className="text-emerald-500" />
+                    <h3 className="font-bold text-slate-800 dark:text-slate-100">Revenue Sources</h3>
+                  </div>
                   <span className="ml-auto text-sm font-bold text-emerald-600 dark:text-emerald-400">
                     +${totalIncome.toLocaleString()}
                   </span>
@@ -350,7 +352,7 @@ export function AccountingView() {
                     return (
                       <div key={m.module} onClick={() => { setFilterModule(m.module as SourceModule); setActiveTab("ledger"); }}
                         className="cursor-pointer group">
-                        <div className="flex items-center justify-between text-sm mb-1.5">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between text-sm mb-1.5 gap-2">
                           <div className="flex items-center gap-2">
                             <span className={`w-2 h-2 rounded-full ${m.dot}`} />
                             <span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">{m.icon} {m.module}</span>
@@ -370,10 +372,12 @@ export function AccountingView() {
               </div>
 
               {/* Expense sources */}
-              <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
-                <div className="flex items-center gap-2 mb-5">
-                  <ArrowDownRight size={16} className="text-rose-500" />
-                  <h3 className="font-bold text-slate-800 dark:text-slate-100">Expense Sources</h3>
+              <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-5">
+                  <div className="flex items-center gap-2">
+                    <ArrowDownRight size={16} className="text-rose-500" />
+                    <h3 className="font-bold text-slate-800 dark:text-slate-100">Expense Sources</h3>
+                  </div>
                   <span className="ml-auto text-sm font-bold text-rose-600 dark:text-rose-400">
                     -${totalExpenses.toLocaleString()}
                   </span>
@@ -384,7 +388,7 @@ export function AccountingView() {
                     return (
                       <div key={m.module} onClick={() => { setFilterModule(m.module as SourceModule); setActiveTab("ledger"); }}
                         className="cursor-pointer group">
-                        <div className="flex items-center justify-between text-sm mb-1.5">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between text-sm mb-1.5 gap-2">
                           <div className="flex items-center gap-2">
                             <span className={`w-2 h-2 rounded-full ${m.dot}`} />
                             <span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">{m.icon} {m.module}</span>
@@ -405,19 +409,23 @@ export function AccountingView() {
             </div>
 
             {/* Payroll breakdown (from Employee Affairs) */}
-            <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
-              <div className="flex items-center gap-2 mb-5">
-                <span className="text-lg">👨‍💼</span>
-                <h3 className="font-bold text-slate-800 dark:text-slate-100">Payroll by Department</h3>
-                <span className="text-xs text-slate-400 dark:text-slate-500 ml-1">— linked from Employee Affairs</span>
+            <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-5">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">👨‍💼</span>
+                  <div>
+                    <h3 className="font-bold text-slate-800 dark:text-slate-100">Payroll by Department</h3>
+                    <p className="text-xs text-slate-400 dark:text-slate-500">— linked from Employee Affairs</p>
+                  </div>
+                </div>
                 <span className="ml-auto text-sm font-bold text-purple-600 dark:text-purple-400">
                   -${Object.values(payrollByDept).reduce((s, v) => s + v, 0).toLocaleString()} / month
                 </span>
               </div>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {Object.entries(payrollByDept).map(([dept, total]) => (
                   <div key={dept} className="bg-slate-50 dark:bg-[#1A1D24] rounded-xl p-4 border border-slate-100 dark:border-slate-700/40">
-                    <p className="text-sm font-bold text-slate-800 dark:text-slate-200">{dept}</p>
+                    <p className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">{dept}</p>
                     <p className="text-xl font-bold text-purple-600 dark:text-purple-400 mt-1">
                       ${total.toLocaleString()}
                     </p>
@@ -492,18 +500,18 @@ export function AccountingView() {
         {activeTab === "ledger" && (
           <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl overflow-hidden">
             {/* Filters */}
-            <div className="p-5 border-b border-slate-100 dark:border-slate-700/50 flex items-center gap-3 flex-wrap bg-slate-50/50 dark:bg-[#1A1D24]/50">
+            <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-700/50 flex flex-col lg:flex-row items-stretch lg:items-center gap-3 bg-slate-50/50 dark:bg-[#1A1D24]/50">
               <h3 className="font-bold text-slate-800 dark:text-slate-100 shrink-0">Transaction Ledger</h3>
-              <div className="relative">
+              <div className="relative flex-1 min-w-0">
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input type="text" placeholder="Search transactions..." value={search} onChange={e => setSearch(e.target.value)}
-                  className="pl-8 pr-4 py-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-sm text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 w-52" />
+                  className="w-full pl-8 pr-4 py-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-xs sm:text-sm text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/20" />
               </div>
 
               {/* Module filter */}
-              <div className="relative">
+              <div className="relative w-full sm:w-auto">
                 <select value={filterModule} onChange={e => setFilterModule(e.target.value as SourceModule | "All")}
-                  className="appearance-none pl-3 pr-8 py-2 text-sm bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
+                  className="appearance-none w-full sm:w-auto pl-3 pr-8 py-2 text-xs sm:text-sm bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
                   <option value="All">All Modules</option>
                   {ALL_MODULES.map(m => <option key={m} value={m}>{m}</option>)}
                 </select>
@@ -511,18 +519,18 @@ export function AccountingView() {
               </div>
 
               {/* Type filter */}
-              <div className="relative">
+              <div className="relative w-full sm:w-auto">
                 <select value={filterType} onChange={e => setFilterType(e.target.value as any)}
-                  className="appearance-none pl-3 pr-8 py-2 text-sm bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
+                  className="appearance-none w-full sm:w-auto pl-3 pr-8 py-2 text-xs sm:text-sm bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
                   {["All", "Income", "Expense"].map(o => <option key={o}>{o}</option>)}
                 </select>
                 <ChevronDown size={13} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
               </div>
 
               {/* Status filter */}
-              <div className="relative">
+              <div className="relative w-full sm:w-auto">
                 <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}
-                  className="appearance-none pl-3 pr-8 py-2 text-sm bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
+                  className="appearance-none w-full sm:w-auto pl-3 pr-8 py-2 text-xs sm:text-sm bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer">
                   {["All", "Completed", "Pending", "Failed"].map(o => <option key={o}>{o}</option>)}
                 </select>
                 <ChevronDown size={13} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
@@ -539,7 +547,7 @@ export function AccountingView() {
 
             {/* Table */}
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="min-w-[900px] w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-100 dark:border-slate-700/50 bg-slate-50 dark:bg-[#1A1D24]">
                     {["Txn ID", "Date", "Source Module", "Type", "Category", "Party / Guest", "Linked Ref", "Method", "Amount", "Status"].map(h => (
