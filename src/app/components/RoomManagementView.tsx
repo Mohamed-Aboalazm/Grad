@@ -64,12 +64,12 @@ function RoomCard({ room, onClick }: { room: typeof roomsData[0]; onClick: () =>
   return (
     <div
       onClick={onClick}
-      className={`bg-white dark:bg-[#22262f] border ${s.border} rounded-xl p-4 cursor-pointer hover:shadow-md hover:scale-[1.02] transition-all duration-200 group`}
+      className={`bg-white dark:bg-[#22262f] border ${s.border} rounded-xl p-3 sm:p-4 cursor-pointer hover:shadow-md hover:scale-[1.02] transition-all duration-200 group`}
     >
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-2 sm:mb-3">
         <div className="flex items-center gap-2">
-          <div className={`w-8 h-8 rounded-lg ${s.bg} flex items-center justify-center`}>
-            <BedDouble size={16} className={s.text} />
+          <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg ${s.bg} flex items-center justify-center`}>
+            <BedDouble size={14} className={s.text} />
           </div>
           <div>
             <span className="font-bold text-slate-800 dark:text-slate-100 text-sm">Room {room.id}</span>
@@ -79,7 +79,7 @@ function RoomCard({ room, onClick }: { room: typeof roomsData[0]; onClick: () =>
         <Eye size={14} className="text-slate-300 dark:text-slate-600 group-hover:text-cyan-500 transition-colors" />
       </div>
 
-      <div className="mb-3">
+      <div className="mb-2 sm:mb-3">
         <StatusBadge status={room.status} />
       </div>
 
@@ -99,7 +99,7 @@ function RoomCard({ room, onClick }: { room: typeof roomsData[0]; onClick: () =>
         </div>
       )}
 
-      <div className="mt-3 flex items-center justify-between">
+      <div className="mt-2 sm:mt-3 flex items-center justify-between">
         <div className="flex gap-1">
           {room.amenities.slice(0, 3).map(a => (
             <span key={a} className="text-slate-400 dark:text-slate-500">{AMENITY_ICONS[a]}</span>
@@ -114,17 +114,17 @@ function RoomCard({ room, onClick }: { room: typeof roomsData[0]; onClick: () =>
 function RoomDetailPanel({ room, onClose }: { room: typeof roomsData[0]; onClose: () => void }) {
   const s = STATUS_COLORS[room.status];
   return (
-    <div className="w-80 shrink-0 bg-white dark:bg-[#1e2128] border-l border-slate-200 dark:border-slate-700/50 flex flex-col overflow-y-auto">
-      <div className="p-5 border-b border-slate-100 dark:border-slate-700/50 flex items-center justify-between">
-        <h3 className="font-bold text-slate-800 dark:text-slate-100">Room {room.id} Details</h3>
+    <div className="w-full sm:w-80 lg:w-96 shrink-0 bg-white dark:bg-[#1e2128] border-l border-slate-200 dark:border-slate-700/50 flex flex-col overflow-y-auto max-h-screen">
+      <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-700/50 flex items-center justify-between">
+        <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm sm:text-base">Room {room.id} Details</h3>
         <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/50 text-slate-400 transition-colors">
           <X size={16} />
         </button>
       </div>
 
-      <div className="p-5 space-y-5 flex-1">
+      <div className="p-4 sm:p-5 space-y-4 sm:space-y-5 flex-1">
         {/* Status Banner */}
-        <div className={`rounded-xl p-4 ${s.bg} border ${s.border}`}>
+        <div className={`rounded-xl p-3 sm:p-4 ${s.bg} border ${s.border}`}>
           <div className="flex items-center justify-between mb-2">
             <StatusBadge status={room.status} />
             <span className={`text-xs font-bold ${room.status === "Occupied" ? "text-cyan-600 dark:text-cyan-400" : "text-slate-500"}`}>
@@ -205,9 +205,9 @@ function RoomDetailPanel({ room, onClose }: { room: typeof roomsData[0]; onClose
 
         {/* Revenue */}
         {room.status === "Occupied" && room.nights && (
-          <div className="bg-cyan-50 dark:bg-cyan-500/10 rounded-xl p-4 border border-cyan-200 dark:border-cyan-700/30">
+          <div className="bg-cyan-50 dark:bg-cyan-500/10 rounded-xl p-3 sm:p-4 border border-cyan-200 dark:border-cyan-700/30">
             <h4 className="text-xs font-semibold text-cyan-700 dark:text-cyan-400 uppercase tracking-wide mb-2">Current Stay Revenue</h4>
-            <p className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">${(room.rate * room.nights).toLocaleString()}</p>
+            <p className="text-xl sm:text-2xl font-bold text-cyan-600 dark:text-cyan-400">${(room.rate * room.nights).toLocaleString()}</p>
             <p className="text-xs text-cyan-600/70 dark:text-cyan-400/60 mt-1">{room.nights} nights × ${room.rate}</p>
           </div>
         )}
@@ -215,14 +215,14 @@ function RoomDetailPanel({ room, onClose }: { room: typeof roomsData[0]; onClose
         {/* Quick Actions */}
         <div>
           <h4 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Quick Actions</h4>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {room.status === "Available" && (
-              <button className="col-span-2 px-3 py-2 bg-cyan-500 hover:bg-cyan-600 text-white text-xs font-semibold rounded-lg transition-colors">
+              <button className="sm:col-span-2 px-3 py-2 bg-cyan-500 hover:bg-cyan-600 text-white text-xs font-semibold rounded-lg transition-colors">
                 Check In Guest
               </button>
             )}
             {room.status === "Occupied" && (
-              <button className="col-span-2 px-3 py-2 bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold rounded-lg transition-colors">
+              <button className="sm:col-span-2 px-3 py-2 bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold rounded-lg transition-colors">
                 Check Out Guest
               </button>
             )}
@@ -281,21 +281,21 @@ export function RoomManagementView() {
   return (
     <div className="flex flex-col h-full min-h-0 bg-slate-50 dark:bg-[#1A1D24]">
       {/* Header */}
-      <header className="h-16 flex items-center justify-between px-8 bg-white dark:bg-[#1e2128] border-b border-slate-200 dark:border-slate-700/50 shrink-0 z-10 transition-colors duration-200">
-        <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Room Management</h1>
-        <div className="flex items-center gap-6">
-          <div className="relative w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+      <header className="h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#1e2128] border-b border-slate-200 dark:border-slate-700/50 shrink-0 z-10 transition-colors duration-200">
+        <h1 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Room Management</h1>
+        <div className="flex items-center gap-2 sm:gap-4 lg:gap-6">
+          <div className="relative w-48 sm:w-56 lg:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input
               type="text"
               placeholder="Search room, guest..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full h-10 pl-10 pr-4 bg-slate-50 dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 dark:text-slate-200 placeholder:text-slate-400 transition-all"
+              className="w-full h-10 pl-9 sm:pl-10 pr-4 bg-slate-50 dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 dark:text-slate-200 placeholder:text-slate-400 transition-all"
             />
           </div>
           <button className="relative p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-full transition-colors">
-            <Bell size={20} />
+            <Bell size={18} />
             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full border border-white dark:border-[#1e2128]" />
           </button>
         </div>
@@ -304,11 +304,11 @@ export function RoomManagementView() {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         {/* Main Content */}
         <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-          <div className="p-8 flex flex-col gap-6">
+          <div className="p-4 sm:p-6 lg:p-8 flex flex-col gap-4 sm:gap-6">
             {/* Page Title + Tabs */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">All Rooms</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100">All Rooms</h2>
                 <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm">
                   {kpi.total} rooms · {occupancyRate}% occupancy rate
                 </p>
@@ -316,7 +316,7 @@ export function RoomManagementView() {
               <div className="flex items-center gap-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-lg p-1">
                 {(["grid", "analytics"] as const).map(tab => (
                   <button key={tab} onClick={() => setActiveTab(tab)}
-                    className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors capitalize ${activeTab === tab ? "bg-cyan-500 text-white" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"}`}>
+                    className={`px-3 sm:px-4 py-1.5 rounded-md text-sm font-medium transition-colors capitalize ${activeTab === tab ? "bg-cyan-500 text-white" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"}`}>
                     {tab === "grid" ? "Room Grid" : "Analytics"}
                   </button>
                 ))}
@@ -324,7 +324,7 @@ export function RoomManagementView() {
             </div>
 
             {/* KPI Cards */}
-            <div className="grid grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
               {[
                 { label: "Total Rooms",  value: kpi.total,       icon: BedDouble,    color: "text-slate-600 dark:text-slate-400",    bg: "bg-slate-100 dark:bg-slate-700/50" },
                 { label: "Available",    value: kpi.available,   icon: CheckCircle2, color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-100 dark:bg-emerald-500/15" },
@@ -332,35 +332,37 @@ export function RoomManagementView() {
                 { label: "Cleaning",     value: kpi.cleaning,    icon: Sparkles,     color: "text-amber-600 dark:text-amber-400",     bg: "bg-amber-100 dark:bg-amber-500/15" },
                 { label: "Maintenance",  value: kpi.maintenance, icon: Wrench,       color: "text-rose-600 dark:text-rose-400",       bg: "bg-rose-100 dark:bg-rose-500/15" },
               ].map(({ label, value, icon: Icon, color, bg }) => (
-                <div key={label} className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 flex items-center gap-3 hover:border-cyan-300 dark:hover:border-cyan-700/50 transition-colors">
-                  <div className={`w-10 h-10 rounded-lg ${bg} flex items-center justify-center shrink-0`}>
-                    <Icon size={18} className={color} />
+                <div key={label} className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-3 sm:p-4 flex items-center gap-3 hover:border-cyan-300 dark:hover:border-cyan-700/50 transition-colors">
+                  <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg ${bg} flex items-center justify-center shrink-0`}>
+                    <Icon size={16} className={color} />
                   </div>
                   <div>
                     <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
-                    <p className={`text-xl font-bold ${color}`}>{value}</p>
+                    <p className={`text-lg sm:text-xl font-bold ${color}`}>{value}</p>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* ── Accounting Impact Banner ── */}
-            <div className="flex items-center gap-4 p-4 bg-cyan-50 dark:bg-cyan-500/10 border border-cyan-200 dark:border-cyan-700/30 rounded-xl">
-              <div className="w-9 h-9 rounded-lg bg-cyan-100 dark:bg-cyan-500/20 flex items-center justify-center shrink-0">
-                <DollarSign size={18} className="text-cyan-600 dark:text-cyan-400" />
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-cyan-50 dark:bg-cyan-500/10 border border-cyan-200 dark:border-cyan-700/30 rounded-xl">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-cyan-100 dark:bg-cyan-500/20 flex items-center justify-center shrink-0">
+                <DollarSign size={16} className="text-cyan-600 dark:text-cyan-400" />
               </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <Link2 size={13} className="text-cyan-600 dark:text-cyan-400" />
-                  <span className="text-sm font-bold text-cyan-700 dark:text-cyan-400">Linked to Accounting</span>
-                  <span className="px-2 py-0.5 bg-cyan-500 text-white text-xs font-bold rounded-full">{accountingEntries} entries</span>
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                  <div className="flex items-center gap-2">
+                    <Link2 size={13} className="text-cyan-600 dark:text-cyan-400" />
+                    <span className="text-sm font-bold text-cyan-700 dark:text-cyan-400">Linked to Accounting</span>
+                  </div>
+                  <span className="px-2 py-0.5 bg-cyan-500 text-white text-xs font-bold rounded-full w-fit">{accountingEntries} entries</span>
                 </div>
-                <p className="text-xs text-cyan-600/80 dark:text-cyan-400/70 mt-0.5">
+                <p className="text-xs text-cyan-600/80 dark:text-cyan-400/70 mt-1">
                   Room Management is generating <span className="font-bold">${totalRoomRevenue.toLocaleString()}</span> in room revenue — flowing live into the Accounting ledger.
                 </p>
               </div>
-              <div className="text-right shrink-0">
-                <p className="text-xl font-bold text-cyan-600 dark:text-cyan-400">+${totalRoomRevenue.toLocaleString()}</p>
+              <div className="text-left sm:text-right shrink-0">
+                <p className="text-lg sm:text-xl font-bold text-cyan-600 dark:text-cyan-400">+${totalRoomRevenue.toLocaleString()}</p>
                 <p className="text-xs text-cyan-500/70 dark:text-cyan-400/60">March 2026</p>
               </div>
             </div>
@@ -368,62 +370,64 @@ export function RoomManagementView() {
             {activeTab === "grid" ? (
               <>
                 {/* Filters */}
-                <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-wrap">
                   <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                     <Filter size={15} />
                     <span className="font-medium">Filters:</span>
                   </div>
-                  {[
-                    { label: "Floor", value: filterFloor, setter: setFilterFloor, options: ["All", "1", "2", "3", "4"] },
-                    { label: "Type",  value: filterType,  setter: setFilterType,  options: ["All", ...ROOM_TYPES] },
-                    { label: "Status",value: filterStatus, setter: setFilterStatus, options: ["All", "Available", "Occupied", "Cleaning", "Maintenance"] },
-                  ].map(({ label, value, setter, options }) => (
-                    <div key={label} className="relative">
-                      <select value={value} onChange={e => setter(e.target.value)}
-                        className="appearance-none pl-3 pr-8 py-2 text-sm bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 cursor-pointer">
-                        {options.map(o => <option key={o} value={o}>{label === "Floor" && o !== "All" ? `Floor ${o}` : o}</option>)}
-                      </select>
-                      <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
-                    </div>
-                  ))}
+                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                    {[
+                      { label: "Floor", value: filterFloor, setter: setFilterFloor, options: ["All", "1", "2", "3", "4"] },
+                      { label: "Type",  value: filterType,  setter: setFilterType,  options: ["All", ...ROOM_TYPES] },
+                      { label: "Status",value: filterStatus, setter: setFilterStatus, options: ["All", "Available", "Occupied", "Cleaning", "Maintenance"] },
+                    ].map(({ label, value, setter, options }) => (
+                      <div key={label} className="relative min-w-0">
+                        <select value={value} onChange={e => setter(e.target.value)}
+                          className="appearance-none pl-3 pr-8 py-2 text-sm bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-600/50 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 cursor-pointer min-w-[120px]">
+                          {options.map(o => <option key={o} value={o}>{label === "Floor" && o !== "All" ? `Floor ${o}` : o}</option>)}
+                        </select>
+                        <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                      </div>
+                    ))}
+                  </div>
                   {(filterFloor !== "All" || filterType !== "All" || filterStatus !== "All" || search) && (
                     <button onClick={() => { setFilterFloor("All"); setFilterType("All"); setFilterStatus("All"); setSearch(""); }}
-                      className="text-xs text-cyan-600 dark:text-cyan-400 hover:underline font-medium">
+                      className="text-xs text-cyan-600 dark:text-cyan-400 hover:underline font-medium whitespace-nowrap">
                       Clear filters
                     </button>
                   )}
-                  <span className="text-xs text-slate-400 dark:text-slate-500 ml-auto">{filtered.length} rooms shown</span>
+                  <span className="text-xs text-slate-400 dark:text-slate-500 ml-auto sm:ml-0">{filtered.length} rooms shown</span>
                 </div>
 
                 {/* Room Grid */}
-                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4">
                   {filtered.map(room => (
                     <RoomCard key={room.id} room={room} onClick={() => setSelectedRoom(selectedRoom?.id === room.id ? null : room)} />
                   ))}
                   {filtered.length === 0 && (
-                    <div className="col-span-full py-16 flex flex-col items-center text-slate-400 dark:text-slate-500">
-                      <BedDouble size={40} className="mb-3 opacity-40" />
-                      <p className="font-medium">No rooms match your filters</p>
+                    <div className="col-span-full py-12 sm:py-16 flex flex-col items-center text-slate-400 dark:text-slate-500">
+                      <BedDouble size={32} className="mb-3 opacity-40" />
+                      <p className="font-medium text-center">No rooms match your filters</p>
                     </div>
                   )}
                 </div>
               </>
             ) : (
               /* Analytics Tab */
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                 {/* Occupancy Pie */}
-                <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
+                <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-6">
                   <h3 className="font-bold text-slate-800 dark:text-slate-100 mb-1">Room Status Distribution</h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Real-time breakdown</p>
-                  <ResponsiveContainer width="100%" height={200}>
+                  <ResponsiveContainer width="100%" height={180} className="mb-4">
                     <PieChart>
-                      <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} dataKey="value">
+                      <Pie data={pieData} cx="50%" cy="50%" innerRadius={50} outerRadius={70} paddingAngle={3} dataKey="value">
                         {pieData.map((_, i) => <Cell key={i} fill={PIE_COLORS[i]} />)}
                       </Pie>
                       <Tooltip contentStyle={{ borderRadius: "8px", border: "1px solid #334155", backgroundColor: "#1e293b", color: "#f8fafc", fontSize: "12px" }} />
                     </PieChart>
                   </ResponsiveContainer>
-                  <div className="space-y-2 mt-2">
+                  <div className="space-y-2">
                     {pieData.map((d, i) => (
                       <div key={d.name} className="flex items-center justify-between text-sm">
                         <div className="flex items-center gap-2">
@@ -437,7 +441,7 @@ export function RoomManagementView() {
                 </div>
 
                 {/* Weekly Occupancy */}
-                <div className="col-span-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
+                <div className="lg:col-span-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <h3 className="font-bold text-slate-800 dark:text-slate-100">Weekly Occupancy Trend</h3>
@@ -448,7 +452,7 @@ export function RoomManagementView() {
                       <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">+8.4%</span>
                     </div>
                   </div>
-                  <ResponsiveContainer width="100%" height={200}>
+                  <ResponsiveContainer width="100%" height={180}>
                     <AreaChart data={occupancyTrendData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
                       <defs>
                         <linearGradient id="occGrad" x1="0" y1="0" x2="0" y2="1">
@@ -472,24 +476,24 @@ export function RoomManagementView() {
                 </div>
 
                 {/* Revenue by Type */}
-                <div className="col-span-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
+                <div className="lg:col-span-2 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-6">
                   <h3 className="font-bold text-slate-800 dark:text-slate-100 mb-1">Revenue by Room Type</h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">This week's revenue breakdown</p>
-                  <ResponsiveContainer width="100%" height={200}>
+                  <ResponsiveContainer width="100%" height={180}>
                     <BarChart data={revenueByTypeData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" opacity={0.3} />
                       <XAxis dataKey="type" axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 11 }} />
                       <YAxis axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 11 }} tickFormatter={v => `$${v/1000}k`} />
                       <Tooltip contentStyle={{ borderRadius: "8px", border: "1px solid #334155", backgroundColor: "#1e293b", color: "#f8fafc", fontSize: "12px" }} formatter={(v: any) => [`$${v.toLocaleString()}`, "Revenue"]} />
-                      <Bar dataKey="revenue" fill="#06b6d4" radius={[6, 6, 0, 0]} barSize={36} />
+                      <Bar dataKey="revenue" fill="#06b6d4" radius={[6, 6, 0, 0]} barSize={32} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
 
                 {/* PowerBI-style Control Panel */}
-                <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
+                <div className="bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <div className="w-7 h-7 rounded-lg bg-yellow-100 dark:bg-yellow-500/15 flex items-center justify-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-yellow-100 dark:bg-yellow-500/15 flex items-center justify-center">
                       <span className="text-yellow-600 dark:text-yellow-400 text-xs font-bold">BI</span>
                     </div>
                     <div>
@@ -497,7 +501,7 @@ export function RoomManagementView() {
                       <p className="text-xs text-slate-400">Live data controls</p>
                     </div>
                   </div>
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {[
                       { label: "Occupancy Rate",  value: occupancyRate, max: 100, color: "bg-cyan-500" },
                       { label: "Rooms Available", value: Math.round((kpi.available / kpi.total) * 100), max: 100, color: "bg-emerald-500" },
@@ -515,7 +519,7 @@ export function RoomManagementView() {
                       </div>
                     ))}
                   </div>
-                  <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+                  <div className="mt-4 sm:mt-5 pt-4 border-t border-slate-100 dark:border-slate-700/50">
                     <p className="text-xs text-slate-400 dark:text-slate-500 mb-2">Quick Metrics</p>
                     <div className="grid grid-cols-2 gap-2">
                       {[
@@ -534,30 +538,30 @@ export function RoomManagementView() {
                 </div>
 
                 {/* Floor Heatmap */}
-                <div className="col-span-3 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-6">
+                <div className="lg:col-span-3 bg-white dark:bg-[#22262f] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 sm:p-6">
                   <h3 className="font-bold text-slate-800 dark:text-slate-100 mb-1">Floor Map Overview</h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Visual status per floor — click a room for details</p>
                   <div className="space-y-3">
                     {FLOORS.map(f => (
-                      <div key={f} className="flex items-center gap-3">
-                        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 w-14 shrink-0">Floor {f}</span>
-                        <div className="flex gap-2 flex-wrap">
+                      <div key={f} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 w-full sm:w-14 shrink-0">Floor {f}</span>
+                        <div className="flex gap-1 sm:gap-2 flex-wrap">
                           {roomsData.filter(r => r.floor === f).map(r => (
                             <div key={r.id} title={`Room ${r.id} - ${r.status}`}
-                              className={`w-12 h-10 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:scale-110 transition-transform border ${STATUS_COLORS[r.status].bg} ${STATUS_COLORS[r.status].border}`}
+                              className={`w-10 h-8 sm:w-12 sm:h-10 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:scale-110 transition-transform border ${STATUS_COLORS[r.status].bg} ${STATUS_COLORS[r.status].border}`}
                               onClick={() => setSelectedRoom(r)}>
                               <span className={`text-xs font-bold ${STATUS_COLORS[r.status].text}`}>{r.id}</span>
-                              <span className={`w-1.5 h-1.5 rounded-full mt-0.5 ${STATUS_COLORS[r.status].dot}`} />
+                              <span className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full mt-0.5 ${STATUS_COLORS[r.status].dot}`} />
                             </div>
                           ))}
                         </div>
                       </div>
                     ))}
                   </div>
-                  <div className="flex items-center gap-5 mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-5 mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
                     {Object.entries(STATUS_COLORS).map(([status, s]) => (
                       <div key={status} className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-                        <span className={`w-2.5 h-2.5 rounded-full ${s.dot}`} /> {status}
+                        <span className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${s.dot}`} /> {status}
                       </div>
                     ))}
                   </div>
@@ -569,7 +573,14 @@ export function RoomManagementView() {
 
         {/* Room Detail Panel */}
         {selectedRoom && (
-          <RoomDetailPanel room={selectedRoom} onClose={() => setSelectedRoom(null)} />
+          <>
+            {/* Mobile overlay */}
+            <div className="fixed inset-0 bg-black/50 z-50 lg:hidden" onClick={() => setSelectedRoom(null)} />
+            {/* Panel */}
+            <div className="fixed lg:static inset-y-0 right-0 z-50 lg:z-auto">
+              <RoomDetailPanel room={selectedRoom} onClose={() => setSelectedRoom(null)} />
+            </div>
+          </>
         )}
       </div>
     </div>
