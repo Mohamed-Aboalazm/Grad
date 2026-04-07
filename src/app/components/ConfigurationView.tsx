@@ -78,16 +78,16 @@ export function ConfigurationView() {
   return (
     <div className="flex flex-col h-full min-h-0 bg-slate-50 dark:bg-[#1A1D24]">
       {/* Header */}
-      <header className="h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#1e2128] border-b border-slate-200 dark:border-slate-700/50 shrink-0 transition-colors duration-200">
-        <h1 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Configuration</h1>
-        <button className="px-3 sm:px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-semibold rounded-lg transition-colors">
+      <header className="h-16 flex items-center justify-between px-8 bg-white dark:bg-[#1e2128] border-b border-slate-200 dark:border-slate-700/50 shrink-0 transition-colors duration-200">
+        <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Configuration</h1>
+        <button className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-semibold rounded-lg transition-colors">
           Save Changes
         </button>
       </header>
 
-      <div className="flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden">
+      <div className="flex flex-1 min-h-0 overflow-hidden">
         {/* Side Tabs */}
-        <div className="w-full md:w-56 shrink-0 bg-white dark:bg-[#1e2128] border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-700/50 p-4 space-y-1">
+        <div className="w-56 shrink-0 bg-white dark:bg-[#1e2128] border-r border-slate-200 dark:border-slate-700/50 p-4 space-y-1">
           {TABS.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left ${
@@ -102,7 +102,7 @@ export function ConfigurationView() {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <div className="flex-1 overflow-y-auto p-8">
 
           {/* ── GENERAL CONFIG ── */}
           {activeTab === "general" && (
@@ -158,7 +158,7 @@ export function ConfigurationView() {
                 <h3 className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                   <Clock size={16} className="text-cyan-500" /> Policies
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   {[
                     { label: "Check-in Time",  val: "14:00" },
                     { label: "Check-out Time", val: "11:00" },
@@ -178,7 +178,7 @@ export function ConfigurationView() {
 
           {/* ── NOTIFICATIONS ── */}
           {activeTab === "notifications" && (
-            <div className="max-w-3xl w-full space-y-8">
+            <div className="max-w-3xl space-y-8">
               <div>
                 <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Notification Settings</h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Control when and how the system sends alerts.</p>
@@ -240,8 +240,8 @@ export function ConfigurationView() {
 
           {/* ── ROLES ── */}
           {activeTab === "roles" && (
-            <div className="max-w-3xl w-full space-y-6">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="max-w-3xl space-y-6">
+              <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Roles & Permissions</h2>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage access levels across your team.</p>
@@ -329,13 +329,13 @@ export function ConfigurationView() {
 
           {/* ── MODULES ── */}
           {activeTab === "modules" && (
-            <div className="max-w-3xl w-full space-y-6">
+            <div className="max-w-3xl space-y-6">
               <div>
                 <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Module Management</h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Enable or disable ERP modules for your property.</p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 {modules.map(mod => (
                   <div key={mod.id} className={`bg-white dark:bg-[#22262f] border rounded-xl p-5 transition-all ${
                     mod.enabled ? "border-slate-200 dark:border-slate-700/50" : "border-slate-100 dark:border-slate-700/20 opacity-60"
